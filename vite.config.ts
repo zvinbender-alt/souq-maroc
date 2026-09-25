@@ -20,6 +20,7 @@ export default defineConfig(() => {
           'pwa-maskable-512x512.png',
           'screenshot-wide.png',
           'screenshot-mobile.png',
+          '.well-known/assetlinks.json',
         ],
         manifest: {
           id: '/',
