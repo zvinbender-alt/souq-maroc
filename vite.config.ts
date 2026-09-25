@@ -15,7 +15,9 @@ export default defineConfig(() => {
           'favicon.ico',
           'apple-touch-icon.png',
           'pwa-192x192.png',
+          'pwa-maskable-192x192.png',
           'pwa-512x512.png',
+          'pwa-maskable-512x512.png',
           'screenshot-wide.png',
           'screenshot-mobile.png',
         ],
@@ -27,26 +29,21 @@ export default defineConfig(() => {
           theme_color: '#065f46',
           background_color: '#ffffff',
           display: 'standalone',
+          orientation: 'any',
           start_url: '/',
           scope: '/',
           icons: [
-            {
-              src: 'https://cdn-icons-png.flaticon.com/512/3081/3081559.png',
-              sizes: '192x192',
-              type: 'image/png',
-              purpose: 'any',
-            },
-            {
-              src: 'https://cdn-icons-png.flaticon.com/512/3081/3081559.png',
-              sizes: '512x512',
-              type: 'image/png',
-              purpose: 'any',
-            },
             {
               src: '/pwa-192x192.png',
               sizes: '192x192',
               type: 'image/png',
               purpose: 'any',
+            },
+            {
+              src: '/pwa-maskable-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+              purpose: 'maskable',
             },
             {
               src: '/pwa-512x512.png',
