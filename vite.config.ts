@@ -11,7 +11,14 @@ export default defineConfig(() => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png'],
+        includeAssets: [
+          'favicon.ico',
+          'apple-touch-icon.png',
+          'pwa-192x192.png',
+          'pwa-512x512.png',
+          'screenshot-wide.png',
+          'screenshot-mobile.png',
+        ],
         manifest: {
           id: '/',
           name: 'Souq Maroc - سوق المغرب',
@@ -52,6 +59,22 @@ export default defineConfig(() => {
               sizes: '512x512',
               type: 'image/png',
               purpose: 'maskable',
+            },
+          ],
+          screenshots: [
+            {
+              src: '/screenshot-wide.png',
+              sizes: '1280x720',
+              type: 'image/png',
+              form_factor: 'wide',
+              label: 'منصة سوق المغرب - تصفح العروض والهميزات على الحاسوب',
+            },
+            {
+              src: '/screenshot-mobile.png',
+              sizes: '750x1334',
+              type: 'image/png',
+              form_factor: 'narrow',
+              label: 'تطبيق سوق المغرب - تجربة جوال متكاملة وسريعة',
             },
           ],
         },

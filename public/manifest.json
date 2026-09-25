@@ -39,5 +39,21 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "منصة سوق المغرب - تصفح العروض والهميزات على الحاسوب"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "تطبيق سوق المغرب - تجربة جوال متكاملة وسريعة"
+    }
   ]
 }
