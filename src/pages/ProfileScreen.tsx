@@ -27,6 +27,7 @@ import { safeOpenExternal } from '../utils/safeBrowser';
 import { AdCard } from '../components/AdCard';
 import { useAuth } from '../context/AuthContext';
 import { deleteAdInFirestore, updateAdInFirestore } from '../firebase/adsService';
+import { PWAInstallButton } from '../components/PWAInstallButton';
 
 interface ProfileScreenProps {
   allAds: Ad[];
@@ -552,6 +553,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   onChange={(e) => setSoundEnabled(e.target.checked)}
                   className="w-4 h-4 text-emerald-600 rounded"
                 />
+              </div>
+
+              <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                <div>
+                  <span className="font-semibold text-slate-800 block">تطبيق الهاتف (PWA)</span>
+                  <span className="text-slate-400">تثبيت التطبيق على الشاشة الرئيسية للعمل بدون إنترنت</span>
+                </div>
+                <PWAInstallButton variant="full" />
               </div>
             </div>
           </div>

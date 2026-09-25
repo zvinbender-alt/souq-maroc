@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { Ad, Category, MoroccanCity, ProjectIdea, ScreenTab, ServiceProvider } from '../types';
 import { AdCard } from '../components/AdCard';
+import { PWAInstallButton } from '../components/PWAInstallButton';
 
 interface HomeScreenProps {
   ads: Ad[];
@@ -159,6 +160,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </div>
         </div>
       </section>
+
+      {/* PWA In-App Install Banner */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-6">
+        <PWAInstallButton variant="banner" />
+      </div>
 
       {/* Main Categories Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">

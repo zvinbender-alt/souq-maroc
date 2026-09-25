@@ -15,6 +15,7 @@ import { ProjectDetailModal } from './components/ProjectDetailModal';
 import { NotificationDrawer } from './components/NotificationDrawer';
 import { AdSuccessModal } from './components/AdSuccessModal';
 import { AuthModal } from './components/AuthModal';
+import { OfflineIndicator } from './components/OfflineIndicator';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
 import {
@@ -373,6 +374,8 @@ function MarketplaceApp() {
             setSelectedAd(ad);
           }}
         />
+
+        <OfflineIndicator />
 
         <AuthModal />
       </div>

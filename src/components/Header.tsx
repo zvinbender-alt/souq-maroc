@@ -3,6 +3,7 @@ import { Bell, LogIn, MapPin, Plus, Search, Sparkles, User as UserIcon } from 'l
 import { MoroccanCity, ScreenTab } from '../types';
 import { MOROCCAN_CITIES } from '../data/mockData';
 import { useAuth } from '../context/AuthContext';
+import { PWAInstallButton } from './PWAInstallButton';
 
 interface HeaderProps {
   currentTab: ScreenTab;
@@ -131,6 +132,9 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Zone 3: Actions */}
         <div className="flex items-center gap-2">
+          {/* PWA Install Button */}
+          <PWAInstallButton variant="compact" />
+
           {/* Quick Search Button */}
           <button
             onClick={() => onNavigate('search')}
