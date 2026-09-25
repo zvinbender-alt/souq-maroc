@@ -1,0 +1,110 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile in Souq Maroc",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "phoneNumber": { "type": "string", "maxLength": 30 },
+        "city": { "type": "string", "maxLength": 50 },
+        "neighborhood": { "type": "string", "maxLength": 100 },
+        "bio": { "type": "string", "maxLength": 500 },
+        "photoURL": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Ad": {
+      "title": "Ad",
+      "description": "Classified listing in Souq Maroc",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 200, "minLength": 5 },
+        "description": { "type": "string", "maxLength": 4000, "minLength": 10 },
+        "price": { "type": "number" },
+        "isNegotiable": { "type": "boolean" },
+        "categoryId": { "type": "string", "maxLength": 50 },
+        "subCategory": { "type": "string", "maxLength": 100 },
+        "city": { "type": "string", "maxLength": 50 },
+        "neighborhood": { "type": "string", "maxLength": 100 },
+        "images": { "type": "array" },
+        "sellerId": { "type": "string", "maxLength": 128 },
+        "sellerName": { "type": "string", "maxLength": 100 },
+        "sellerPhone": { "type": "string", "maxLength": 30 },
+        "sellerWhatsApp": { "type": "string", "maxLength": 30 },
+        "condition": { "type": "string", "maxLength": 50 },
+        "isFeatured": { "type": "boolean" },
+        "viewsCount": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "sold"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["title", "description", "price", "categoryId", "city", "sellerId"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Category definition",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "nameAr": { "type": "string" },
+        "nameFr": { "type": "string" },
+        "count": { "type": "number" },
+        "subcategories": { "type": "array" }
+      },
+      "required": ["id", "nameAr"]
+    },
+    "Favorite": {
+      "title": "Favorite",
+      "description": "User saved ad reference",
+      "type": "object",
+      "properties": {
+        "adId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["adId", "userId"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Direct buyer to seller chat inquiry",
+      "type": "object",
+      "properties": {
+        "adId": { "type": "string", "maxLength": 128 },
+        "adTitle": { "type": "string", "maxLength": 200 },
+        "senderId": { "type": "string", "maxLength": 128 },
+        "senderName": { "type": "string", "maxLength": 100 },
+        "recipientId": { "type": "string", "maxLength": 128 },
+        "message": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" },
+        "isRead": { "type": "boolean" }
+      },
+      "required": ["adId", "senderId", "recipientId", "message"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Public and private user account profile information"
+    },
+    "/ads/{adId}": {
+      "schema": "Ad",
+      "description": "Marketplace classified ads and items"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Marketplace category directory"
+    },
+    "/users/{userId}/favorites/{favoriteId}": {
+      "schema": "Favorite",
+      "description": "User saved favorite listings"
+    },
+    "/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Inquiries between buyer and seller"
+    }
+  }
+}

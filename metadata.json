@@ -1,0 +1,6 @@
+{
+  "name": "سوق المغرب - Souq Maroc",
+  "description": "المنصة المغربية الشاملة للإعلانات المبوبة، البيع والشراء، العقارات، السيارات، الحرفيين والخدمات، وأفكار المشاريع المربحة بالمغرب.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

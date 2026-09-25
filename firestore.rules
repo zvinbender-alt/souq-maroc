@@ -1,0 +1,87 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Deny Catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Connection test document
+    match /test/connection {
+      allow read: if true;
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if isSignedIn() && request.auth.uid == userId;
+      allow delete: if false;
+
+      // Nested Favorites Subcollection
+      match /favorites/{favoriteId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // Ads Collection
+    match /ads/{adId} {
+      // Public marketplace: anyone can view ads
+      allow read: if true;
+
+      // Only signed-in users can create ads for themselves
+      allow create: if isSignedIn()
+        && isValidId(adId)
+        && incoming().sellerId == request.auth.uid
+        && incoming().title is string
+        && incoming().title.size() <= 200
+        && incoming().description is string
+        && incoming().description.size() <= 4000
+        && incoming().price is number;
+
+      // Only owner can update or delete their own ads
+      allow update: if isSignedIn()
+        && existing().sellerId == request.auth.uid
+        && incoming().sellerId == existing().sellerId;
+
+      allow delete: if isSignedIn()
+        && existing().sellerId == request.auth.uid;
+    }
+
+    // Categories Directory
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Direct Messages / Inquiries between users
+    match /messages/{messageId} {
+      allow read: if isSignedIn() && (existing().senderId == request.auth.uid || existing().recipientId == request.auth.uid);
+      allow create: if isSignedIn() && incoming().senderId == request.auth.uid;
+      allow update: if isSignedIn() && existing().recipientId == request.auth.uid;
+      allow delete: if isSignedIn() && (existing().senderId == request.auth.uid || existing().recipientId == request.auth.uid);
+    }
+  }
+}
