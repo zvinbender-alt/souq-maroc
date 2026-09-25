@@ -95,6 +95,9 @@ export const ProjectIdeasScreen: React.FC<ProjectIdeasScreenProps> = ({
                       src={project.image}
                       alt={project.title}
                       referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80';
+                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute top-3 right-3 px-3 py-1 bg-purple-900/80 text-white text-xs font-bold rounded-xl backdrop-blur-xs">

@@ -28,6 +28,7 @@ import { AdCard } from '../components/AdCard';
 import { useAuth } from '../context/AuthContext';
 import { deleteAdInFirestore, updateAdInFirestore } from '../firebase/adsService';
 import { PWAInstallButton } from '../components/PWAInstallButton';
+import { getFallbackImage, getSafeImageUrl } from '../utils/imageUtils';
 
 interface ProfileScreenProps {
   allAds: Ad[];
@@ -303,9 +304,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   >
                     <div className="relative">
                       <img
-                        src={ad.images[0] || '/src/assets/images/morocco_hero_banner_1790354597044.jpg'}
+                        src={getSafeImageUrl(ad.images[0] || ad.imageUrl, ad.categoryId, 0)}
                         alt={ad.title}
                         referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src = getFallbackImage(ad.categoryId, 0);
+                        }}
                         className="w-16 h-16 rounded-xl object-cover border border-slate-100 shrink-0"
                       />
                       {isSold && (

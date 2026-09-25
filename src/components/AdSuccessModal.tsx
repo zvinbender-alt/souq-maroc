@@ -1,6 +1,7 @@
 import React from 'react';
 import { CheckCircle, Eye, Share2, Sparkles, X } from 'lucide-react';
 import { Ad } from '../types';
+import { getFallbackImage, getSafeImageUrl } from '../utils/imageUtils';
 
 interface AdSuccessModalProps {
   ad: Ad | null;
@@ -43,8 +44,12 @@ export const AdSuccessModal: React.FC<AdSuccessModalProps> = ({
 
         <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-3 text-right">
           <img
-            src={ad.images[0]}
+            src={getSafeImageUrl(ad.images[0] || ad.imageUrl, ad.categoryId, 0)}
             alt={ad.title}
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = getFallbackImage(ad.categoryId, 0);
+            }}
             className="w-14 h-14 rounded-xl object-cover border border-slate-200 shrink-0"
           />
           <div className="flex-1 min-w-0">

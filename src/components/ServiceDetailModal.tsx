@@ -66,6 +66,9 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                 src={service.avatar}
                 alt={service.name}
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=400&q=80';
+                }}
                 className="w-full h-full object-cover"
               />
               {service.isVerified && (

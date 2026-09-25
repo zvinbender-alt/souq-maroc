@@ -107,7 +107,128 @@ export const INITIAL_USER_PROFILE: UserProfile = {
   memberSince: 'مارس 2023',
 };
 
+export const SAMPLE_FIRESTORE_ADS: Ad[] = [
+  {
+    id: "sample-ad-realestate",
+    title: "شقة عصرية مفروشة بإطلالة بحرية ساحرة في عين الذئاب - الدار البيضاء",
+    description: "شقة راقية مؤثثة بأرقى المعايير بإطلالة مباشرة على كورنيش عين الذئاب بالدار البيضاء. تتكون من 2 غرف نوم واسعة، صالون فسيح مع تراس مشمس، مطبخ مجهز بالكامل، وحمامين. موقف سيارات خاص ومصعد، إقامة محروسة ومسبح مشترك.",
+    price: 9800,
+    isNegotiable: true,
+    categoryId: "real-estate",
+    subCategory: "شقق للكراء",
+    city: "الدار البيضاء",
+    neighborhood: "عين الذئاب",
+    date: "منذ نصف ساعة",
+    images: [
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
+    ],
+    imageUrl: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+    seller: {
+      id: "seller-sample-1",
+      name: "هشام بنجلون",
+      phone: "0661224466",
+      whatsapp: "212661224466",
+      city: "الدار البيضاء",
+      isVerified: true,
+      memberSince: "2023",
+      rating: 4.9,
+      reviewsCount: 42,
+      totalListings: 5
+    },
+    condition: "جديد",
+    isFeatured: true,
+    viewsCount: 310,
+    status: "active",
+    specs: {
+      "المساحة": "110 م²",
+      "الغرف": "2 غرف نوم + صالون",
+      "الإطلالة": "مباشرة على البحر (Vue sur Mer)",
+      "الأثاث": "مفروشة فاخرة"
+    }
+  },
+  {
+    id: "sample-ad-vehicle",
+    title: "مرسيدس بنز الفئة C ديزل موديل 2023 AMG Line بحالة الوكالة - الرباط",
+    description: "Mercedes-Benz Classe C 220d AMG Line موديل 2023 مستوردة جديدة ديوانة المغرب. كيلومتراج 32,000 كم فقط، صيانة دورية لدى وكالة مرسيدس. سقف بانورامي، شاشة MBUX الذكية، جنوط AMG قياس 19، أنظمة قيادة شبه ذاتية، خالية تماماً من الصباغة أو الخدوش.",
+    price: 395000,
+    isNegotiable: true,
+    categoryId: "vehicles",
+    subCategory: "سيارات مستعملة",
+    city: "الرباط",
+    neighborhood: "أكدال",
+    date: "منذ ساعة",
+    images: [
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80"
+    ],
+    imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
+    seller: {
+      id: "seller-sample-2",
+      name: "طارق العمراني",
+      phone: "0663557799",
+      whatsapp: "212663557799",
+      city: "الرباط",
+      isVerified: true,
+      memberSince: "2022",
+      rating: 5.0,
+      reviewsCount: 28,
+      totalListings: 3
+    },
+    condition: "مستعمل كأنه جديد",
+    isFeatured: true,
+    viewsCount: 450,
+    status: "active",
+    specs: {
+      "الموديل": "2023 AMG Line",
+      "الكيلومتراج": "32,000 كم",
+      "الوقود": "ديزل اقتصادي",
+      "ناقل الحركة": "أوتوماتيك 9G-Tronic"
+    }
+  },
+  {
+    id: "sample-ad-electronics",
+    title: "آيفون 16 برو ماكس 256 جيجا تيتانيوم طبيعي باطري 100% مع كامل ملحقاته - مراكش",
+    description: "Apple iPhone 16 Pro Max 256GB Natural Titanium أصلي بالكرتونة والشاحن السريع. نسبة البطارية 100%، بدون أي خدش إطلاقاً، يدعم شريحة SIM وeSIM، كاميرا 48 ميغابكسل مع زر التحكم الجديد. ضمان رسمي ساري لمدة 10 أشهر.",
+    price: 14200,
+    isNegotiable: true,
+    categoryId: "electronics",
+    subCategory: "هواتف ذكية و iPhone",
+    city: "مراكش",
+    neighborhood: "جليز",
+    date: "منذ ساعتين",
+    images: [
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=1200&q=80"
+    ],
+    imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80",
+    seller: {
+      id: "seller-sample-3",
+      name: "يوسف السوسي",
+      phone: "0665113355",
+      whatsapp: "212665113355",
+      city: "مراكش",
+      isVerified: true,
+      memberSince: "2024",
+      rating: 4.8,
+      reviewsCount: 17,
+      totalListings: 6
+    },
+    condition: "مستعمل كأنه جديد",
+    isFeatured: true,
+    viewsCount: 620,
+    status: "active",
+    specs: {
+      "السعة": "256 GB",
+      "اللون": "Natural Titanium",
+      "البطارية": "100% (صحة ممتازة)",
+      "الضمان": "ساري المفعول بالمغرب"
+    }
+  }
+];
+
 export const INITIAL_ADS: Ad[] = [
+  ...SAMPLE_FIRESTORE_ADS,
   // 1. REAL ESTATE (عقارات)
   {
     id: 'ad-1',
@@ -121,8 +242,8 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'المعاريف',
     date: 'منذ ساعتين',
     images: [
-      '/src/assets/images/morocco_apartment_living_1790354610792.jpg',
-      '/src/assets/images/morocco_hero_banner_1790354597044.jpg',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-1',
@@ -160,7 +281,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'طريق النخيل',
     date: 'منذ 4 ساعات',
     images: [
-      '/src/assets/images/morocco_apartment_living_1790354610792.jpg',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-realestate-2',
@@ -200,8 +321,8 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'مالباطا',
     date: 'منذ 3 ساعات',
     images: [
-      '/src/assets/images/morocco_modern_car_1790354622064.jpg',
-      '/src/assets/images/morocco_hero_banner_1790354597044.jpg',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-2',
@@ -239,7 +360,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'حي الرياض',
     date: 'منذ 5 ساعات',
     images: [
-      '/src/assets/images/morocco_modern_car_1790354622064.jpg',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-v2',
@@ -279,7 +400,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'كليز',
     date: 'اليوم',
     images: [
-      '/src/assets/images/morocco_hero_banner_1790354597044.jpg',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-5',
@@ -316,7 +437,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'عين السبع',
     date: 'منذ يوم',
     images: [
-      '/src/assets/images/morocco_hero_banner_1790354597044.jpg',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-elec-2',
@@ -355,7 +476,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'المعاريف',
     date: 'اليوم',
     images: [
-      '/src/assets/images/morocco_project_cafe_1790354646299.jpg',
+      'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-job-1',
@@ -392,7 +513,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'المنطقة الصناعية مغوغة',
     date: 'منذ يوم',
     images: [
-      '/src/assets/images/morocco_hero_banner_1790354597044.jpg',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-job-2',
@@ -430,7 +551,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'سيدي معروف',
     date: 'منذ 5 ساعات',
     images: [
-      '/src/assets/images/morocco_artisan_service_1790354633726.jpg',
+      'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-4',
@@ -469,7 +590,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'المنزه',
     date: 'منذ يومين',
     images: [
-      '/src/assets/images/morocco_apartment_living_1790354610792.jpg',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-8',
@@ -506,7 +627,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'حي الدكارات',
     date: 'منذ يومين',
     images: [
-      '/src/assets/images/morocco_hero_banner_1790354597044.jpg',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-fas-1',
@@ -545,7 +666,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'أكدال',
     date: 'اليوم',
     images: [
-      '/src/assets/images/morocco_project_cafe_1790354646299.jpg',
+      'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-3',
@@ -582,7 +703,7 @@ export const INITIAL_ADS: Ad[] = [
     neighborhood: 'حي النرجس',
     date: 'منذ يومين',
     images: [
-      '/src/assets/images/morocco_hero_banner_1790354597044.jpg',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
     ],
     seller: {
       id: 'seller-7',
@@ -621,15 +742,15 @@ export const SERVICE_PROVIDERS: ServiceProvider[] = [
     experienceYears: 14,
     phone: '0665123987',
     whatsapp: '212665123987',
-    avatar: '/src/assets/images/morocco_artisan_service_1790354633726.jpg',
+    avatar: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
     isVerified: true,
     startingPriceMAD: 35,
     hourlyRateMAD: 70,
     skills: ['صباغة الخيال وستيكو', 'معالجة رطوبة الجدران', 'تركيب ورق الجدران 3D', 'صباغة العمارات والشقق'],
     description: 'خبرة تفوق 14 سنة في صباغة الشقق والفيلات الراقية بالدار البيضاء والنواحي. استخدام سلع أصلية ومضمونة، التزام بالوقت ودقة في التشطيب.',
     portfolioImages: [
-      '/src/assets/images/morocco_artisan_service_1790354633726.jpg',
-      '/src/assets/images/morocco_apartment_living_1790354610792.jpg',
+      'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
     ],
     availability: 'متاح اليوم',
   },
@@ -644,14 +765,14 @@ export const SERVICE_PROVIDERS: ServiceProvider[] = [
     experienceYears: 16,
     phone: '0661445588',
     whatsapp: '212661445588',
-    avatar: '/src/assets/images/morocco_artisan_service_1790354633726.jpg',
+    avatar: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
     isVerified: true,
     startingPriceMAD: 100,
     hourlyRateMAD: 80,
     skills: ['كشف تسربات المياه بالموجات', 'تركيب سخانات الماء والشوفاج', 'صيانة شبكات الصرف الصحي', 'تجهيز الحمامات الإيطالية'],
     description: 'سباك محترف معتمد في مراكش. خدمة فورية 7 أيام في الأسبوع لحالات الطوارئ وتسريب المياه. كشف إلكتروني دقيق للأعطال بدون تكسير.',
     portfolioImages: [
-      '/src/assets/images/morocco_artisan_service_1790354633726.jpg',
+      'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
     ],
     availability: 'متاح اليوم',
   },
@@ -666,14 +787,14 @@ export const SERVICE_PROVIDERS: ServiceProvider[] = [
     experienceYears: 9,
     phone: '0662334455',
     whatsapp: '212662334455',
-    avatar: '/src/assets/images/morocco_artisan_service_1790354633726.jpg',
+    avatar: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
     isVerified: true,
     startingPriceMAD: 120,
     hourlyRateMAD: 90,
     skills: ['إصلاح أعطال القواطع والماس', 'تثبيت كاميرات المراقبة والإنتركوم', 'توزيع الإنارة المخفية LED', 'لوحات التحكم الذكية'],
     description: 'تقني كهرباء حاصل على ديبلوم من معهد التكنولوجيا التطبيقية، مختص في التركيبات الكهربائية الحديثة وحلول الأمان في الرباط وسلا وتمارة.',
     portfolioImages: [
-      '/src/assets/images/morocco_artisan_service_1790354633726.jpg',
+      'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
     ],
     availability: 'متاح هذا الأسبوع',
   },
@@ -688,13 +809,13 @@ export const SERVICE_PROVIDERS: ServiceProvider[] = [
     experienceYears: 11,
     phone: '0664998877',
     whatsapp: '212664998877',
-    avatar: '/src/assets/images/morocco_artisan_service_1790354633726.jpg',
+    avatar: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
     isVerified: true,
     startingPriceMAD: 400,
     skills: ['شاحنات مجهزة ومغلقة', 'فريق فك وتركيب غرف النوم', 'تغليف احترافي مضاد للصدمات', 'مصعد خارجي لتنزيل الأثاث'],
     description: 'خدمة نقل وترحيل الأثاث بين طنجة وتطوان وجميع المدن المغربية. عناية فائقة بمقتنياتكم مع ضمان السلامة وفريق عمل مدرب.',
     portfolioImages: [
-      '/src/assets/images/morocco_hero_banner_1790354597044.jpg',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
     ],
     availability: 'متاح اليوم',
   },
@@ -709,13 +830,13 @@ export const SERVICE_PROVIDERS: ServiceProvider[] = [
     experienceYears: 8,
     phone: '0670112244',
     whatsapp: '212670112244',
-    avatar: '/src/assets/images/morocco_artisan_service_1790354633726.jpg',
+    avatar: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
     isVerified: true,
     startingPriceMAD: 150,
     skills: ['شحن غاز المكيفات R410 و R32', 'تنظيف وصيانة الفلاتر', 'إصلاح غسالات الملابس الأوتوماتيكية', 'صيانة غرف التبريد'],
     description: 'تنقل منزلي سريع في مدينة أكادير والنواحي (إنزكان، الدشيرة، أورير). قطع غيار أصلية وفحص دقيق.',
     portfolioImages: [
-      '/src/assets/images/morocco_artisan_service_1790354633726.jpg',
+      'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
     ],
     availability: 'حسب الموعد',
   },
@@ -750,7 +871,7 @@ export const PROJECT_IDEAS: ProjectIdea[] = [
       'توفير خدمة الدفع الإلكتروني السريع أو التطبيقات البنكية المغربية.',
     ],
     moroccanMarketTips: 'في المغرب، زبون القهوة وفي جداً للمذاق وسرعة الخدمة. تقديم شاي مغربي ممتاز بالنعناع أو الشيبة كخيار إضافي يرفع مبيعاتك بنسبة 30%.',
-    image: '/src/assets/images/morocco_project_cafe_1790354646299.jpg',
+    image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 'proj-2',
@@ -778,7 +899,7 @@ export const PROJECT_IDEAS: ProjectIdea[] = [
       'نظام حجز مواعيد بسيط عبر واتساب.',
     ],
     moroccanMarketTips: 'الزبون المغربي يقدر جداً الأمانة عندما يأتمنك على سيارته. تقديم تعطير مجاني وتلميع الإطارات يترك انطباعاً استثنائياً.',
-    image: '/src/assets/images/morocco_modern_car_1790354622064.jpg',
+    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 'proj-3',
@@ -805,7 +926,7 @@ export const PROJECT_IDEAS: ProjectIdea[] = [
       'تجهيز علب هدايا خاصة بالمناسبات (رمضان، الأعياد، هدايا الشركات).',
     ],
     moroccanMarketTips: 'المستهلك المغربي يبحث عن المصداقية. تصوير زياراتك للتعاونيات وبث مباشر لعملية العصر يضاعف مبيعاتك 3 أضعاف.',
-    image: '/src/assets/images/morocco_hero_banner_1790354597044.jpg',
+    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 'proj-4',
@@ -832,6 +953,6 @@ export const PROJECT_IDEAS: ProjectIdea[] = [
       'أتمتة عملية التنظيف مباشرة بعد مغادرة كل زبون.',
     ],
     moroccanMarketTips: 'المغرب يشهد إقبالاً سياحياً قياسياً خصوصاً مع التظاهرات القادمة وكأس العالم. المدن الشمالية ومراكش وأكادير تشهد طلباً هائلاً طوال العام.',
-    image: '/src/assets/images/morocco_apartment_living_1790354610792.jpg',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
   },
 ];

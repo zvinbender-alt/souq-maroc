@@ -59,6 +59,9 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                 src={project.image}
                 alt={project.title}
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80';
+                }}
                 className="w-full h-full object-cover"
               />
             </div>

@@ -16,12 +16,53 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { auth, db, storage } from './config';
 import { handleFirestoreError, OperationType } from './error';
 import { Ad, MoroccanCity } from '../types';
-import { INITIAL_ADS } from '../data/mockData';
+import { INITIAL_ADS, SAMPLE_FIRESTORE_ADS } from '../data/mockData';
+import { getSanitizedImages } from '../utils/imageUtils';
 
 const ADS_COLLECTION = 'ads';
 
+// Ensure 3 sample listings with real Unsplash image URLs exist in Firestore
+export async function seedSampleListingsInFirestore(): Promise<void> {
+  try {
+    for (const sample of SAMPLE_FIRESTORE_ADS) {
+      const docRef = doc(db, ADS_COLLECTION, sample.id);
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        await setDoc(docRef, {
+          title: sample.title,
+          description: sample.description,
+          price: sample.price,
+          isNegotiable: sample.isNegotiable,
+          categoryId: sample.categoryId,
+          subCategory: sample.subCategory || '',
+          city: sample.city,
+          neighborhood: sample.neighborhood,
+          date: sample.date,
+          images: sample.images,
+          imageUrl: sample.imageUrl || sample.images[0],
+          sellerId: sample.seller.id,
+          sellerName: sample.seller.name,
+          sellerPhone: sample.seller.phone,
+          sellerWhatsApp: sample.seller.whatsapp,
+          condition: sample.condition,
+          isFeatured: sample.isFeatured || false,
+          viewsCount: sample.viewsCount,
+          status: sample.status || 'active',
+          specs: sample.specs || {},
+          createdAt: new Date().toISOString(),
+        });
+      }
+    }
+  } catch (err) {
+    console.warn('Notice seeding sample listings in Firestore:', err);
+  }
+}
+
 // Listen to all ads in real-time from Firestore
 export function subscribeToAds(callback: (ads: Ad[]) => void): () => void {
+  // Proactively ensure sample listings exist in Firestore
+  seedSampleListingsInFirestore().catch(() => {});
+
   const adsRef = collection(db, ADS_COLLECTION);
   const q = query(adsRef);
 
@@ -31,6 +72,16 @@ export function subscribeToAds(callback: (ads: Ad[]) => void): () => void {
       const adsList: Ad[] = [];
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
+        const rawImages = Array.isArray(data.images) ? data.images : [];
+        if (data.imageUrl && !rawImages.includes(data.imageUrl)) {
+          rawImages.unshift(data.imageUrl);
+        }
+        const cleanImages = getSanitizedImages({
+          images: rawImages,
+          imageUrl: data.imageUrl,
+          categoryId: data.categoryId,
+        });
+
         adsList.push({
           id: docSnap.id,
           title: data.title || '',
@@ -42,7 +93,8 @@ export function subscribeToAds(callback: (ads: Ad[]) => void): () => void {
           city: (data.city as MoroccanCity) || 'الدار البيضاء',
           neighborhood: data.neighborhood || '',
           date: data.date || 'اليوم',
-          images: Array.isArray(data.images) && data.images.length > 0 ? data.images : ['/src/assets/images/morocco_hero_banner_1790354597044.jpg'],
+          images: cleanImages,
+          imageUrl: cleanImages[0],
           seller: {
             id: data.sellerId || 'seller-system',
             name: data.sellerName || 'بائع في سوق المغرب',
@@ -101,6 +153,7 @@ export async function seedInitialAdsIfEmpty(): Promise<Ad[]> {
         neighborhood: ad.neighborhood,
         date: ad.date,
         images: ad.images,
+        imageUrl: ad.imageUrl || ad.images[0],
         sellerId: auth.currentUser?.uid || 'seed-system',
         sellerName: ad.seller.name,
         sellerPhone: ad.seller.phone,

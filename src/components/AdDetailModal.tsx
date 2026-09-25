@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { Ad } from '../types';
 import { safeCopyToClipboard, safeOpenExternal } from '../utils/safeBrowser';
+import { getFallbackImage, getSafeImageUrl, getSanitizedImages } from '../utils/imageUtils';
 
 interface AdDetailModalProps {
   ad: Ad | null;
@@ -146,74 +147,94 @@ export const AdDetailModal: React.FC<AdDetailModalProps> = ({
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto pb-24 sm:pb-6">
           {/* Main Photo Gallery */}
-          <div className="relative aspect-[16/10] bg-slate-950 sm:max-h-[380px] overflow-hidden">
-            {ad.images.length > 0 ? (
-              <img
-                src={ad.images[activeImageIndex] || ad.images[0]}
-                alt={ad.title}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-contain sm:object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
-                لا توجد صور متوفرة
-              </div>
-            )}
-
-            {/* Gallery Navigation Arrows */}
-            {ad.images.length > 1 && (
+          {(() => {
+            const galleryImages = getSanitizedImages(ad);
+            const safeCurrentImg = galleryImages[activeImageIndex] || galleryImages[0];
+            return (
               <>
-                <button
-                  onClick={() =>
-                    setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : ad.images.length - 1))
-                  }
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition-colors"
-                  aria-label="الصورة السابقة"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() =>
-                    setActiveImageIndex((prev) => (prev < ad.images.length - 1 ? prev + 1 : 0))
-                  }
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition-colors"
-                  aria-label="الصورة التالية"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-xs rounded-full">
-                  {ad.images.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setActiveImageIndex(idx)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        activeImageIndex === idx ? 'bg-white w-4' : 'bg-white/50'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
+                <div className="relative aspect-[16/10] bg-slate-950 sm:max-h-[380px] overflow-hidden select-none">
+                  <img
+                    src={safeCurrentImg}
+                    alt={ad.title}
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = getFallbackImage(ad.categoryId, activeImageIndex);
+                    }}
+                    className="w-full h-full object-contain sm:object-cover"
+                  />
 
-          {/* Thumbnails Row if multiple images */}
-          {ad.images.length > 1 && (
-            <div className="px-4 py-2 bg-slate-100 flex items-center gap-2 overflow-x-auto no-scrollbar">
-              {ad.images.map((img, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveImageIndex(idx)}
-                  className={`w-14 h-14 rounded-xl overflow-hidden shrink-0 border-2 transition-all ${
-                    activeImageIndex === idx
-                      ? 'border-emerald-600 scale-105 shadow-xs'
-                      : 'border-transparent opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
-          )}
+                  {/* 1/2 Indicator Badge */}
+                  {galleryImages.length > 1 && (
+                    <div className="absolute top-3 left-3 px-2.5 py-1 bg-black/60 text-white text-xs font-mono font-bold rounded-lg backdrop-blur-xs z-10">
+                      {activeImageIndex + 1}/{galleryImages.length}
+                    </div>
+                  )}
+
+                  {/* Gallery Navigation Arrows */}
+                  {galleryImages.length > 1 && (
+                    <>
+                      <button
+                        onClick={() =>
+                          setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : galleryImages.length - 1))
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition-colors z-10"
+                        aria-label="الصورة السابقة"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                      <button
+                        onClick={() =>
+                          setActiveImageIndex((prev) => (prev < galleryImages.length - 1 ? prev + 1 : 0))
+                        }
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition-colors z-10"
+                        aria-label="الصورة التالية"
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-xs rounded-full z-10">
+                        {galleryImages.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setActiveImageIndex(idx)}
+                            className={`w-2 h-2 rounded-full transition-all ${
+                              activeImageIndex === idx ? 'bg-white w-4' : 'bg-white/50'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Thumbnails Row if multiple images */}
+                {galleryImages.length > 1 && (
+                  <div className="px-4 py-2 bg-slate-100 flex items-center gap-2 overflow-x-auto no-scrollbar">
+                    {galleryImages.map((img, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setActiveImageIndex(idx)}
+                        className={`w-14 h-14 rounded-xl overflow-hidden shrink-0 border-2 transition-all ${
+                          activeImageIndex === idx
+                            ? 'border-emerald-600 scale-105 shadow-xs'
+                            : 'border-transparent opacity-70 hover:opacity-100'
+                        }`}
+                      >
+                        <img
+                          src={img}
+                          alt={`${ad.title} ${idx + 1}`}
+                          referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).src = getFallbackImage(ad.categoryId, idx);
+                          }}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            );
+          })()}
 
           <div className="p-4 sm:p-6 space-y-6">
             {/* Price & Title Section */}
@@ -391,8 +412,12 @@ export const AdDetailModal: React.FC<AdDetailModalProps> = ({
                       className="p-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 transition-all cursor-pointer bg-white flex flex-col justify-between group"
                     >
                       <img
-                        src={sim.images[0]}
+                        src={getSafeImageUrl(sim.images[0] || sim.imageUrl, sim.categoryId, 0)}
                         alt={sim.title}
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src = getFallbackImage(sim.categoryId, 0);
+                        }}
                         className="w-full h-24 object-cover rounded-lg mb-2"
                       />
                       <h5 className="text-xs font-bold text-slate-900 line-clamp-1 group-hover:text-emerald-700">

@@ -54,6 +54,7 @@ export interface Ad {
   neighborhood: string;
   date: string;
   images: string[];
+  imageUrl?: string;
   seller: Seller;
   condition: 'جديد' | 'مستعمل كأنه جديد' | 'مستعمل بحالة جيدة' | 'غير محدد';
   isFeatured?: boolean;

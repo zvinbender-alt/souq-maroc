@@ -312,6 +312,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     src={srv.avatar}
                     alt={srv.name}
                     referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=400&q=80';
+                    }}
                     className="w-12 h-12 rounded-xl object-cover border border-slate-100"
                   />
                   <div>

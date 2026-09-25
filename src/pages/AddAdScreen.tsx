@@ -56,17 +56,20 @@ export const AddAdScreen: React.FC<AddAdScreenProps> = ({
 
   // Multiple Images State (can hold Files or URLs)
   const [imageFiles, setImageFiles] = useState<(File | string)[]>([
-    '/src/assets/images/morocco_apartment_living_1790354610792.jpg',
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
   ]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([
-    '/src/assets/images/morocco_apartment_living_1790354610792.jpg',
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
   ]);
 
   const sampleImages = [
-    { label: 'عقار / صالون', url: '/src/assets/images/morocco_apartment_living_1790354610792.jpg' },
-    { label: 'سيارة حديثة', url: '/src/assets/images/morocco_modern_car_1790354622064.jpg' },
-    { label: 'مشروع / مقهى', url: '/src/assets/images/morocco_project_cafe_1790354646299.jpg' },
-    { label: 'تقني / حرفي', url: '/src/assets/images/morocco_artisan_service_1790354633726.jpg' },
+    { label: 'عقار / فيلا', url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80' },
+    { label: 'سيارة حديثة', url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80' },
+    { label: 'هاتف / إلكترونيات', url: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80' },
+    { label: 'مشروع / مقهى', url: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80' },
+    { label: 'خدمة / حرفي', url: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80' },
   ];
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -597,8 +600,11 @@ export const AddAdScreen: React.FC<AddAdScreenProps> = ({
             <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
               <div className="aspect-[16/10] bg-slate-900 rounded-2xl overflow-hidden relative">
                 <img
-                  src={imagePreviews[0]}
+                  src={imagePreviews[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80'}
                   alt={title}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80';
+                  }}
                   className="w-full h-full object-cover"
                 />
                 <span className="absolute top-2 right-2 px-2 py-0.5 bg-emerald-600 text-white text-[10px] font-bold rounded">

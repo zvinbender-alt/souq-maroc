@@ -1,7 +1,8 @@
-import React from 'react';
-import { Bookmark, CheckCircle2, MapPin, Phone, MessageSquare } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Bookmark, ChevronLeft, ChevronRight, MapPin, MessageSquare, Phone } from 'lucide-react';
 import { Ad } from '../types';
 import { safeOpenExternal } from '../utils/safeBrowser';
+import { getFallbackImage, getSanitizedImages } from '../utils/imageUtils';
 
 interface AdCardProps {
   ad: Ad;
@@ -16,10 +17,36 @@ export const AdCard: React.FC<AdCardProps> = ({
   onToggleFavorite,
   onSelect,
 }) => {
-  const [imageError, setImageError] = React.useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [failedImages, setFailedImages] = useState<Record<number, boolean>>({});
+
+  // Ensure sanitized, valid HTTPS images with fallback from Unsplash/Picsum
+  const images = useMemo(() => getSanitizedImages(ad), [ad]);
+
+  // Active image source with fallback if empty or failed
+  const activeImage = useMemo(() => {
+    if (failedImages[currentImageIndex]) {
+      return getFallbackImage(ad.categoryId, currentImageIndex);
+    }
+    const currentUrl = images[currentImageIndex];
+    if (!currentUrl || currentUrl.trim() === '') {
+      return getFallbackImage(ad.categoryId, currentImageIndex);
+    }
+    return currentUrl;
+  }, [images, currentImageIndex, failedImages, ad.categoryId]);
 
   // Format price in MAD with Moroccan thousands separator
   const formattedPrice = new Intl.NumberFormat('fr-MA').format(ad.price);
+
+  const handleNextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const handlePrevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   const handleWhatsApp = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -38,25 +65,59 @@ export const AdCard: React.FC<AdCardProps> = ({
       className="group bg-white rounded-2xl border border-slate-200/80 hover:border-slate-300 hover:shadow-md transition-all overflow-hidden flex flex-col cursor-pointer"
     >
       {/* Media Container */}
-      <div className="relative aspect-[4/3] bg-slate-100 overflow-hidden">
-        {!imageError && ad.images.length > 0 ? (
-          <img
-            src={ad.images[0]}
-            alt={ad.title}
-            referrerPolicy="no-referrer"
-            onError={() => setImageError(true)}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 text-slate-400 p-4 text-center">
-            <span className="text-3xl mb-1">🇲🇦</span>
-            <span className="text-xs font-medium text-slate-500">{ad.city}</span>
-          </div>
+      <div className="relative aspect-[4/3] bg-slate-100 overflow-hidden select-none">
+        <img
+          src={activeImage}
+          alt={ad.title}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={() => {
+            setFailedImages((prev) => ({ ...prev, [currentImageIndex]: true }));
+          }}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+
+        {/* Multi-image Navigation & Indicator (e.g. 1/2 indicator) */}
+        {images.length > 1 && (
+          <>
+            {/* 1/2 Indicator Badge */}
+            <div className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/70 text-white text-[11px] font-bold rounded-md font-mono tabular-nums backdrop-blur-xs shadow-xs z-10">
+              {currentImageIndex + 1}/{images.length}
+            </div>
+
+            {/* Pagination Dots */}
+            <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 z-10 pointer-events-none">
+              {images.map((_, idx) => (
+                <span
+                  key={idx}
+                  className={`h-1.5 rounded-full transition-all duration-200 ${
+                    idx === currentImageIndex ? 'w-4 bg-white shadow-xs' : 'w-1.5 bg-white/60'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Next / Previous Controls */}
+            <button
+              onClick={handleNextImage}
+              aria-label="الصورة التالية"
+              className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs z-10"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handlePrevImage}
+              aria-label="الصورة السابقة"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs z-10"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </>
         )}
 
-        {/* Quiet Featured Label (Clean editorial banner, not garish candy pill) */}
+        {/* Featured Label */}
         {ad.isFeatured && (
-          <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-amber-500/90 text-white text-[11px] font-bold rounded-lg shadow-sm backdrop-blur-xs">
+          <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-amber-500/90 text-white text-[11px] font-bold rounded-lg shadow-sm backdrop-blur-xs z-10">
             همزة مميزة
           </div>
         )}
@@ -67,7 +128,7 @@ export const AdCard: React.FC<AdCardProps> = ({
             e.stopPropagation();
             onToggleFavorite(ad.id);
           }}
-          className={`absolute top-2.5 left-2.5 w-9 h-9 rounded-xl flex items-center justify-center transition-transform active:scale-90 backdrop-blur-md ${
+          className={`absolute top-2.5 left-2.5 w-9 h-9 rounded-xl flex items-center justify-center transition-transform active:scale-90 backdrop-blur-md z-10 ${
             isFavorite
               ? 'bg-rose-500 text-white shadow-sm'
               : 'bg-white/80 hover:bg-white text-slate-700'
@@ -76,19 +137,12 @@ export const AdCard: React.FC<AdCardProps> = ({
         >
           <Bookmark className={`w-4.5 h-4.5 ${isFavorite ? 'fill-current' : ''}`} />
         </button>
-
-        {/* Image count indicator if multiple */}
-        {ad.images.length > 1 && (
-          <div className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 text-white text-[10px] rounded-md font-mono tabular-nums backdrop-blur-xs">
-            1/{ad.images.length}
-          </div>
-        )}
       </div>
 
       {/* Content Body */}
       <div className="p-3.5 sm:p-4 flex flex-col flex-1 justify-between">
         <div>
-          {/* Unboxed Metadata (Zero-pill discipline) */}
+          {/* Metadata */}
           <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-1.5 flex-wrap">
             <span className="inline-flex items-center gap-0.5 text-slate-700 font-medium">
               <MapPin className="w-3 h-3 text-emerald-600" />
@@ -106,7 +160,7 @@ export const AdCard: React.FC<AdCardProps> = ({
           </h3>
         </div>
 
-        {/* Price & Seller / Quick Actions Footer */}
+        {/* Price & Quick Actions Footer */}
         <div className="mt-3 pt-3 border-t border-slate-100 flex items-end justify-between gap-2">
           <div>
             <div className="flex items-baseline gap-1">
